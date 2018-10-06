@@ -1,8 +1,8 @@
 import sys
-import Board
+import board
 
 def main():
-    testBoard = Board.Board([[1,2,3,4],[5,6,7,8],[9,10,11,0]])
+    testBoard = board.Board([[1,2,3,4],[5,6,7,8],[9,10,11,0]])
     print(testBoard)
     
     next_moves = testBoard.get_moves()
@@ -14,8 +14,6 @@ def main():
         print(child[1])
         print(child[1].get_children())
     
-        
-
 
 if __name__ == "__main__":
     main()
