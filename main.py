@@ -5,7 +5,7 @@ import board
 def depth_first(initial_state):
 	open_l = [("0", board.Board(initial_state))]
 	closed_l = []
-	move_buffer = [(0, initial_state)]
+	move_buffer = []
 	
 	while(open_l):
 		x = open_l.pop()
@@ -14,7 +14,7 @@ def depth_first(initial_state):
 		if x[1].goal_reached(): 
 			return move_buffer
 		else:
-			closed_l.append(x)
+			closed_l.append(x[1].state)
 			new_moves = x[1].get_children() ## Generate all possible moves from x, ordered by hierarchy
 			for move in new_moves:
 				if move[1].state not in open_l or move[1].state not in closed_l:
@@ -78,8 +78,8 @@ raw_state = sys.argv[1:]
 for i in raw_state:
 	raw_state[raw_state.index(i)] = int(i)
 
-initial_state = [raw_state[0:4], raw_state[4:8], raw_state[8:12]]
-
+#initial_state = [raw_state[0:4], raw_state[4:8], raw_state[8:12]]
+initial_state = [[1, 2, 3, 4],[5, 6, 7, 0],[9, 10, 11, 8]]
 print(depth_first(initial_state))
 
 

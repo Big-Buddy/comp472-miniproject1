@@ -1,4 +1,4 @@
-
+import copy
 
 class Board():
 
@@ -96,7 +96,7 @@ class Board():
         """
 
         #temporay board which shows us what the current board would look like if we took the move specified by next_move_id
-        temp_board = self.state
+        temp_board = copy.deepcopy(self.state)
 
         # First, find row and col number of our blank tile
         for row_num, row in enumerate(self.state):
@@ -113,11 +113,11 @@ class Board():
                     next_move_col = col_num
 
         # Switch our blank tile with the move_id tile
-        temp_tile = self.state[next_move_row][next_move_col]
+        temp_tile = temp_board[next_move_row][next_move_col]
         temp_board[zero_row][zero_col] = temp_tile
         temp_board[next_move_row][next_move_col] = 0
 
-        return temp_board
+        return Board(temp_board)
 
 
     def get_children(self):
@@ -131,7 +131,7 @@ class Board():
         children = []
 
         for move in next_moves:
-            child = Board(self.peek_move(move))
+            child = self.peek_move(move)
             children.append((move, child))
 
         return children
