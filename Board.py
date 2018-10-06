@@ -78,6 +78,10 @@ class Board():
 
 
     def peek_move(self, next_move_id):
+        """Peeks ahead and returns the state of the board if a particular move is taken
+        next_move_id should be a char string between a and l
+        """
+
         #temporay board which shows us what the current board would look like if we took the move specified by next_move_id
         temp_board = self.state
 
@@ -104,16 +108,26 @@ class Board():
 
 
     def take_move(self, next_move_id):
+        """Takes a move and changes the state of the board
+        next_move_id should be a char string between a and l
+        """
         temp_board = self.peek_move(next_move_id)
         self.state = temp_board
 
 
     def get_children(self):
+        """Returns all the possible children of a board
+        Returns a list of tuples(move, board) where move is a char string between a and l which represents the move, 
+        and board is the 2D list representation of the board after the move.
+        Return is sorted in descending order (move with last priority will come first in list)
+        """
+
         next_moves = self.get_moves()
         children = []
 
         for move in next_moves:
             children.append((move, self.peek_move(move)))
-    
+
+        return children
         
     
