@@ -17,8 +17,8 @@ def depth_first(initial_state):
 			closed_l.append(x[1].state)
 			new_moves = x[1].get_children() ## Generate all possible moves from x, ordered by hierarchy
 			for move in new_moves:
-				temp_l = [i[1].state for i in open_l]
-				if move[1].state not in temp_l and move[1].state not in closed_l:
+				open_l_states = [i[1].state for i in open_l]
+				if move[1].state not in open_l_states and move[1].state not in closed_l:
 					open_l.append(move) ## If children are not already in open or closed, append to open
 	return []
 
@@ -80,8 +80,8 @@ for i in raw_state:
 	raw_state[raw_state.index(i)] = int(i)
 
 #initial_state = [raw_state[0:4], raw_state[4:8], raw_state[8:12]]
-#initial_state = [[1,2,3,4],[5,6,0,8],[9,10,11,7]]
-initial_state = [[1, 0, 3, 7], [5, 2, 6, 4], [9, 10, 11, 8]] 
+initial_state = [[1,2,3,4],[5,6,8,7],[9,10,0,11]]
+#initial_state = [[1, 0, 3, 7], [5, 2, 6, 4], [9, 10, 11, 8]] 
 print(depth_first(initial_state))
 
 
