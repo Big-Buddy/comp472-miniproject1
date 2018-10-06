@@ -41,7 +41,7 @@ class Board():
         # Valid-moves list is sorted in descending order (move with last priority will come first in list)
         # 7: UP-LEFT
         next_row = zero_row - 1
-        next_col = zero_col + 1
+        next_col = zero_col - 1
         if(next_row > 0 and next_row < 3 and next_col > 0 and next_col < 4):
             valid_moves.append(self.letter_board[next_row][next_col])
 
