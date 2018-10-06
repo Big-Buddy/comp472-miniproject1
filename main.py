@@ -1,14 +1,15 @@
 import sys
 from queue import PriorityQueue
+import board
 
 def depth_first(initial_state):
-	open_l = [initial_state]
+	open_l = [board.Board(initial_state)]
 	closed_l = []
 	move_buffer = [(0, initial_state)]
 	
 	while(open_l):
 		x = open_l.pop()
-		move_buffer.append((x.letter, x.state))
+		move_buffer.append((x[0], x[1].state))
 		if check_goal(x): 
 			return move_buffer
 		else:
@@ -20,7 +21,7 @@ def depth_first(initial_state):
 	return []
 
 def best_first(initial_state, h_func):
-	open_l = PriorityQueue().put((h_func(initial_state), initial_state))
+	open_l = PriorityQueue().put((h_func(initial_state), board.Board(initial_state)))
 	closed_l = []
 	move_buffer = [(0, initial_state)]
 	
@@ -34,12 +35,12 @@ def best_first(initial_state, h_func):
 			new moves = generate_children(x)
 
 			for move in new_moves:
-				if move[1] not in open_l.queue and move[1] not in closed_l:
+				if move[1]. not in open_l.queue and move[1] not in closed_l:
 					open_l.put((h_func(move), move))
 	return []
 
 def a_star(initial_state, h_func):
-	open_l = PriorityQueue().put((f_func(h_func, initial_state), initial_state))
+	open_l = PriorityQueue().put((f_func(h_func, initial_state), Board.initial_state))
 	closed_l = []
 	move_buffer = [(0, initial_state)]
 
