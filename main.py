@@ -10,7 +10,7 @@ def depth_first(initial_state):
 	while(open_l):
 		x = open_l.pop()
 		print(x[1])
-		move_buffer.append((x[0], x[1].state))
+		move_buffer.append((x[0], str(x[1])))
 		if x[1].goal_reached(): 
 			return move_buffer
 		else:
@@ -80,8 +80,8 @@ for i in raw_state:
 	raw_state[raw_state.index(i)] = int(i)
 
 #initial_state = [raw_state[0:4], raw_state[4:8], raw_state[8:12]]
-initial_state = [[1,2,3,4],[5,6,8,7],[9,10,0,11]]
-#initial_state = [[1, 0, 3, 7], [5, 2, 6, 4], [9, 10, 11, 8]] 
+#initial_state = [[1,2,3,4],[5,6,8,7],[9,10,0,11]]
+initial_state = [[1, 0, 3, 7], [5, 2, 6, 4], [9, 10, 11, 8]] 
 print(depth_first(initial_state))
 
 

@@ -1,4 +1,5 @@
 import copy
+import random
 
 class Board():
 
@@ -134,6 +135,9 @@ class Board():
             child = self.peek_move(move)
             children.append((move, child))
 
+        #TEST!!!!
+        random.shuffle(children)
+        
         return children
         
         
