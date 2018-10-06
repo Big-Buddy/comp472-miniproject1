@@ -7,6 +7,19 @@ class Board():
         self.letter_board = [['a','b','c','d'],['e','f','g','h'],['i','j','k','l']]
         self.state = initial_state
     
+    def __str__(self):
+        """Returns the current state in string format [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
+        """
+        str_buffer = []
+
+        for row in self.state:
+            for tile in row:
+                str_buffer.append(str(tile))
+        
+        out_string = '[{}]'.format(', '.join(str_buffer))
+
+        return out_string
+        
 
     def goal_reached(self):
         # Check to see if we have reached the goal state
@@ -79,7 +92,7 @@ class Board():
 
     def peek_move(self, next_move_id):
         """Peeks ahead and returns the state of the board if a particular move is taken
-        next_move_id should be a char string between a and l
+        next_move_id should be a char string between 'a' and 'l'
         """
 
         #temporay board which shows us what the current board would look like if we took the move specified by next_move_id
@@ -93,7 +106,7 @@ class Board():
                     zero_col = col_num
 
         # Next, find the row and col numbers of the tile given in the move_id
-        for row_num, row in enumerate(self.state):
+        for row_num, row in enumerate(self.letter_board):
             for col_num, tile in enumerate(row):
                 if tile == next_move_id:
                     next_move_row = row_num
@@ -107,17 +120,9 @@ class Board():
         return temp_board
 
 
-    def take_move(self, next_move_id):
-        """Takes a move and changes the state of the board
-        next_move_id should be a char string between a and l
-        """
-        temp_board = self.peek_move(next_move_id)
-        self.state = temp_board
-
-
     def get_children(self):
         """Returns all the possible children of a board
-        Returns a list of tuples(move, board) where move is a char string between a and l which represents the move, 
+        Returns a list of tuples(move, board) where move is a char string between 'a' and 'l' which represents the move, 
         and board is the 2D list representation of the board after the move.
         Return is sorted in descending order (move with last priority will come first in list)
         """
@@ -126,8 +131,9 @@ class Board():
         children = []
 
         for move in next_moves:
-            children.append((move, self.peek_move(move)))
+            child = Board(self.peek_move(move))
+            children.append((move, child))
 
         return children
         
-    
+        
