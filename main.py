@@ -45,22 +45,23 @@ def best_first(initial_state, h_func):
 
 @timer.stopwatch
 def a_star(initial_state, h_func):
-	open_l = PriorityQueue().put((f_func(h_func, initial_state), Board.initial_state))
+	start = board.Board(initial_state)
+	open_l = PriorityQueue()
+	open_l.put((f_func(h_func, start), ("0", start)))
 	closed_l = []
-	move_buffer = [(0, initial_state)]
+	move_buffer = []
 
 	while not open_l.empty():
 		x = open_l.get()[1]
-		move_buffer.append(x.letter, x.state)
-		if check_goal(x):
+		move_buffer.append((x[0], str(x[1])))
+		if x[1].goal_reached():
 			return move_buffer
 		else:
-			closed_l.append(x)
-			new_moves = generate_children(x)
-			
+			closed_l.append(x[1].state)
+			new_moves = x[1].get_children()
 			for move in new_moves:
 				if move[1].state not in open_l.queue and move[1].state not in closed_l:
-					open_l.put((f_func(move), move))
+					open_l.put((f_func(h_func, move[1]), move))
 	return []
 
 def manh_dist(state):
@@ -100,6 +101,12 @@ def row_col_diff(state):
             		score += 1
 	return score
 
+def f_func(h_func, board):
+	return h_func(board.state) + g_func(board)
+
+def g_func(board):
+	return board.num_of_parents
+
 def test():
     testBoard = board.Board([[1,2,3,4],[5,6,7,8],[9,10,11,0]])
     print(testBoard)
@@ -124,6 +131,5 @@ for i in raw_state:
 #initial_state = [[1, 0, 3, 7], [5, 2, 6, 4], [9, 10, 11, 8]] 
 initial_state = [[11, 10, 9, 8],[7, 6, 5, 4], [3, 2, 1, 0]]
 #print(depth_first(initial_state))
-
-print(best_first(initial_state, manh_dist))	
-print(best_first(initial_state, row_col_diff))	
+#print(best_first(initial_state, manh_dist))
+print(a_star(initial_state, manh_dist))
