@@ -1,7 +1,9 @@
 import sys
 from queue import PriorityQueue
 import board
+import timer
 
+@timer.stopwatch
 def depth_first(initial_state):
 	open_l = [("0", board.Board(initial_state))]
 	closed_l = []
@@ -21,6 +23,7 @@ def depth_first(initial_state):
 					open_l.append(move) ## If children are not already in open or closed, append to open
 	return []
 
+@timer.stopwatch
 def best_first(initial_state, h_func):
 	open_l = PriorityQueue()
 	open_l.put((h_func(initial_state), ("0", board.Board(initial_state))))
@@ -40,6 +43,7 @@ def best_first(initial_state, h_func):
 					open_l.put((h_func(move[1].state), move))
 	return []
 
+@timer.stopwatch
 def a_star(initial_state, h_func):
 	open_l = PriorityQueue().put((f_func(h_func, initial_state), Board.initial_state))
 	closed_l = []
@@ -117,9 +121,9 @@ for i in raw_state:
 
 #initial_state = [raw_state[0:4], raw_state[4:8], raw_state[8:12]]
 #initial_state = [[1,2,3,4],[5,6,8,7],[9,10,0,11]]
-initial_state = [[1, 0, 3, 7], [5, 2, 6, 4], [9, 10, 11, 8]] 
+#initial_state = [[1, 0, 3, 7], [5, 2, 6, 4], [9, 10, 11, 8]] 
+initial_state = [[11, 10, 9, 8],[7, 6, 5, 4], [3, 2, 1, 0]]
 #print(depth_first(initial_state))
-print(best_first(initial_state, row_col_diff))
 
-
-
+print(best_first(initial_state, manh_dist))	
+print(best_first(initial_state, row_col_diff))	
