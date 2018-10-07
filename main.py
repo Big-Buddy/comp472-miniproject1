@@ -23,22 +23,22 @@ def depth_first(initial_state):
 	return []
 
 def best_first(initial_state, h_func):
-	open_l = PriorityQueue().put((h_func(initial_state), board.Board(initial_state)))
+	open_l = PriorityQueue()
+	open_l.put((h_func(initial_state), ("0", board.Board(initial_state))))
 	closed_l = []
-	move_buffer = [(0, initial_state)]
+	move_buffer = []
 	
 	while not open_l.empty():
 		x = open_l.get()[1]
-		move_buffer.append(x.letter, x.state)
-		if check_goal(x):
+		move_buffer.append((x[0], str(x[1])))
+		if x[1].goal_reached():
 			return move_buffer
 		else:
-			closed_l.append(x)
-			new_moves = generate_children(x)
-
+			closed_l.append(x[1].state)
+			new_moves = x[1].get_children()
 			for move in new_moves:
 				if move[1].state not in open_l.queue and move[1].state not in closed_l:
-					open_l.put((h_func(move), move))
+					open_l.put((h_func(move[1].state), move))
 	return []
 
 def a_star(initial_state, h_func):
@@ -59,7 +59,20 @@ def a_star(initial_state, h_func):
 				if move[1].state not in open_l.queue and move[1].state not in closed_l:
 					open_l.put((f_func(move), move))
 	return []
-	
+
+def manh_dist(state):
+	score = 0
+	goal_states = [[1, 2, 3, 4], [5, 6, 7, 8], [9, 10, 11, 0]]
+	goal_coord = dict( (j,(x, y)) for x, i in enumerate(goal_states) for y, j in enumerate(i) )
+
+	for row_num, row in enumerate(state):
+            for col_num, tile in enumerate(row):
+            	a = (row_num, col_num)
+            	b = goal_coord[tile]
+
+            	score += abs(a[0]-b[0]) + abs(a[1]-b[1])
+	return score
+
 def test():
     testBoard = board.Board([[1,2,3,4],[5,6,7,8],[9,10,11,0]])
     print(testBoard)
@@ -82,7 +95,8 @@ for i in raw_state:
 #initial_state = [raw_state[0:4], raw_state[4:8], raw_state[8:12]]
 #initial_state = [[1,2,3,4],[5,6,8,7],[9,10,0,11]]
 initial_state = [[1, 0, 3, 7], [5, 2, 6, 4], [9, 10, 11, 8]] 
-print(depth_first(initial_state))
+#print(depth_first(initial_state))
+print(best_first(initial_state, manh_dist))
 
 
 

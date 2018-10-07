@@ -6,6 +6,7 @@ class Board():
         self.goal_state = [[1,2,3,4],[5,6,7,8],[9,10,11,0]]
         self.letter_board = [['a','b','c','d'],['e','f','g','h'],['i','j','k','l']]
         self.state = initial_state
+        self.priority = 0
     
     def __str__(self):
         """Returns the current state in string format [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
@@ -20,6 +21,10 @@ class Board():
 
         return out_string
         
+    def __lt__(self, other):
+        selfPriority = self.priority
+        otherPriority = other.priority
+        return selfPriority < otherPriority
 
     def goal_reached(self):
         # Check to see if we have reached the goal state
@@ -43,49 +48,49 @@ class Board():
         next_row = zero_row - 1
         next_col = zero_col - 1
         if(next_row >= 0 and next_row < 3 and next_col >= 0 and next_col < 4):
-            valid_moves.append(self.letter_board[next_row][next_col])
+            valid_moves.append((7, self.letter_board[next_row][next_col]))
 
         # 6: LEFT
         next_row = zero_row 
         next_col = zero_col - 1
         if(next_row >= 0 and next_row < 3 and next_col >= 0 and next_col < 4):
-            valid_moves.append(self.letter_board[next_row][next_col])
+            valid_moves.append((6, self.letter_board[next_row][next_col]))
         
         # 5: DOWN-LEFT
         next_row = zero_row + 1
         next_col = zero_col - 1
         if(next_row >= 0 and next_row < 3 and next_col >= 0 and next_col < 4):
-            valid_moves.append(self.letter_board[next_row][next_col])
+            valid_moves.append((5, self.letter_board[next_row][next_col]))
         
         # 4: DOWN
         next_row = zero_row + 1
         next_col = zero_col
         if(next_row >= 0 and next_row < 3 and next_col >= 0 and next_col < 4):
-            valid_moves.append(self.letter_board[next_row][next_col])
+            valid_moves.append((4, self.letter_board[next_row][next_col]))
         
         # 3: DOWN-RIGHT
         next_row = zero_row + 1 
         next_col = zero_col + 1
         if(next_row >= 0 and next_row < 3 and next_col >= 0 and next_col < 4):
-            valid_moves.append(self.letter_board[next_row][next_col])
+            valid_moves.append((3, self.letter_board[next_row][next_col]))
         
         # 2: RIGHT
         next_row = zero_row 
         next_col = zero_col + 1
         if(next_row >= 0 and next_row < 3 and next_col >= 0 and next_col < 4):
-            valid_moves.append(self.letter_board[next_row][next_col])
+            valid_moves.append((2, self.letter_board[next_row][next_col]))
 
         # 1: UP-RIGHT
         next_row = zero_row - 1
         next_col = zero_col + 1
         if(next_row >= 0 and next_row < 3 and next_col >= 0 and next_col < 4):
-            valid_moves.append(self.letter_board[next_row][next_col])
+            valid_moves.append((1, self.letter_board[next_row][next_col]))
 
         # 0: UP
         next_row = zero_row - 1
         next_col = zero_col
         if(next_row >= 0 and next_row < 3 and next_col >= 0 and next_col < 4):
-            valid_moves.append(self.letter_board[next_row][next_col])
+            valid_moves.append((0, self.letter_board[next_row][next_col]))
 
         return valid_moves
 
@@ -131,8 +136,9 @@ class Board():
         children = []
 
         for move in next_moves:
-            child = self.peek_move(move)
-            children.append((move, child))
+            child = self.peek_move(move[1])
+            child.priority = move[0]
+            children.append((move[1], child))
 
         return children
         
