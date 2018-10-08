@@ -5,16 +5,16 @@ import board
 def depth_first(initial_state):
 	open_l = [("0", board.Board(initial_state))]
 	closed_l = []
-	move_buffer = []
 	
 	while(open_l):
 		x = open_l.pop()
-		move_buffer.append((x[0], str(x[1])))
 		if x[1].goal_reached(): 
-			return move_buffer
+			solution = x[1].parents
+			solution.append((x[0], x[1].state))
+			return solution
 		else:
 			closed_l.append(x[1].state)
-			new_moves = x[1].get_children() ## Generate all possible moves from x, ordered by hierarchy
+			new_moves = x[1].get_children(x[0]) ## Generate all possible moves from x, ordered by hierarchy
 			for move in new_moves:
 				open_l_states = [i[1].state for i in open_l]
 				if move[1].state not in open_l_states and move[1].state not in closed_l:
@@ -25,16 +25,16 @@ def best_first(initial_state, h_func):
 	open_l = PriorityQueue()
 	open_l.put((h_func(initial_state), ("0", board.Board(initial_state))))
 	closed_l = []
-	move_buffer = []
 	
 	while not open_l.empty():
 		x = open_l.get()[1]
-		move_buffer.append((x[0], str(x[1])))
 		if x[1].goal_reached():
-			return move_buffer
+			solution = x[1].parents
+			solution.append((x[0], x[1].state))
+			return solution
 		else:
 			closed_l.append(x[1].state)
-			new_moves = x[1].get_children()
+			new_moves = x[1].get_children(x[0])
 			for move in new_moves:
 				if move[1].state not in open_l.queue and move[1].state not in closed_l:
 					open_l.put((h_func(move[1].state), move))
@@ -45,16 +45,16 @@ def a_star(initial_state, h_func):
 	open_l = PriorityQueue()
 	open_l.put((f_func(h_func, start), ("0", start)))
 	closed_l = []
-	move_buffer = []
 
 	while not open_l.empty():
 		x = open_l.get()[1]
-		move_buffer.append((x[0], str(x[1])))
 		if x[1].goal_reached():
-			return move_buffer
+			solution = x[1].parents
+			solution.append((x[0], x[1].state))
+			return solution
 		else:
 			closed_l.append(x[1].state)
-			new_moves = x[1].get_children()
+			new_moves = x[1].get_children(x[0])
 			for move in new_moves:
 				if move[1].state not in open_l.queue and move[1].state not in closed_l:
 					open_l.put((f_func(h_func, move[1]), move))
@@ -122,9 +122,11 @@ raw_state = sys.argv[1:]
 for i in raw_state:
 	raw_state[raw_state.index(i)] = int(i)
 
-#initial_state = [raw_state[0:4], raw_state[4:8], raw_state[8:12]]
+initial_state = [raw_state[0:4], raw_state[4:8], raw_state[8:12]]
 #initial_state = [[1,2,3,4],[5,6,8,7],[9,10,0,11]]
-initial_state = [[1, 0, 3, 7], [5, 2, 6, 4], [9, 10, 11, 8]] 
-#print(depth_first(initial_state))
-#print(best_first(initial_state, manh_dist))
-print(a_star(initial_state, manh_dist))
+# initial_state = [[1, 0, 3, 7], [5, 2, 6, 4], [9, 10, 11, 8]] 
+# result = depth_first(initial_state)
+result = best_first(initial_state, manh_dist)
+# result = a_star(initial_state, manh_dist)
+print(result)
+print(len(result))
