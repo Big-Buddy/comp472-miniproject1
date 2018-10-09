@@ -10,6 +10,7 @@ class Board():
         self.state = initial_state
         self.priority = 0
         self.num_of_parents = 0
+        self.parents = []
     
     def __str__(self):
         """
@@ -132,9 +133,8 @@ class Board():
         return Board(temp_board)
 
 
-    def get_children(self):
-        """
-        Returns all the possible children of a board
+    def get_children(self, move_letter):
+        """Returns all the possible children of a board
         Returns a list of tuples(move, board) where move is a char string between 'a' and 'l' which represents the move, 
         and board is the 2D list representation of the board after the move.
         Return is sorted in descending order (move with last priority will come first in list)
@@ -147,6 +147,11 @@ class Board():
             child = self.peek_move(move[1])
             child.priority = move[0]
             child.num_of_parents = self.num_of_parents + 1
+            if self.parents:
+                child.parents = self.parents
+                child.parents.append((move_letter, self.state))
+            else:
+                child.parents.append((move_letter, self.state))
             children.append((move[1], child))
 
         return children
