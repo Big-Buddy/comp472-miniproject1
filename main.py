@@ -74,11 +74,11 @@ def manh_dist(state):
 	goal_coord = dict( (j,(x, y)) for x, i in enumerate(goal_states) for y, j in enumerate(i) )
 
 	for row_num, row in enumerate(state):
-            for col_num, tile in enumerate(row):
-            	a = (row_num, col_num)
-            	b = goal_coord[tile]
-
-            	score += abs(a[0]-b[0]) + abs(a[1]-b[1])
+		for col_num, tile in enumerate(row):
+			if tile != 0:
+				a = (row_num, col_num)
+				b = goal_coord[tile]
+			score += max(abs(a[0]-b[0]), abs(a[1]-b[1]))
 	return score
 
 def row_col_diff(state):
