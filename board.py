@@ -149,11 +149,11 @@ class Board():
             child.num_of_parents = self.num_of_parents + 1
             if self.parents:
                 child.parents = self.parents
-                child.parents.append((move_letter, self.state))
+                if self.state not in [i[1] for i in child.parents]:
+                    child.parents.append((move_letter, self.state))
             else:
                 child.parents.append((move_letter, self.state))
             children.append((move[1], child))
-
         return children
         
         
