@@ -117,7 +117,7 @@ def f_func(h_func, board):
 	return h_func(board.state) + g_func(board)
 
 def g_func(board):
-	return board.num_of_parents
+	return len(board.parents)
 
 def run_experiment(search_alg, h_func=None):
 	test_cases = [[[1, 0, 3, 7], [5, 2, 6, 4], [9, 10, 11, 8]],
@@ -149,25 +149,25 @@ for i in raw_state:
 
 #initial_state = [raw_state[0:4], raw_state[4:8], raw_state[8:12]]
 #initial_state = [[1,2,3,4],[5,6,8,7],[9,10,0,11]]
-initial_state = [[1, 2, 3, 4], [5, 6, 7, 8], [9, 11, 10, 0]] 
+initial_state = [[1, 2, 3, 4], [5, 6, 7, 8], [9, 11, 10, 0]]
 # result = depth_first(initial_state)
 
 #Best-first search - manhattan distance
 result_bfs_h1 = best_first(initial_state, manh_dist)
-print(result_bfs_h1)
-print("Length of BFS solution path using h1: {}".format(len(result_bfs_h1)))
+for i in result_bfs_h1[0]: print(i)
+print("Length of BFS solution path using h1: {}".format(len(result_bfs_h1[0])))
 
 #Best-first search - row column difference
 result_bfs_h2 = best_first(initial_state, row_col_diff)
-print(result_bfs_h2)
-print("Length of BFS solution path using h2: {}".format(len(result_bfs_h2)))
+for i in result_bfs_h2[0]: print(i)
+print("Length of BFS solution path using h2: {}".format(len(result_bfs_h2[0])))
 
 #A* - manhattan distance
 result_a_h1 = a_star(initial_state, manh_dist)
-print(result_a_h1)
-print("Length of A* solution path using h1: {}".format(len(result_a_h1)))
+for i in result_a_h1[0]: print(i)
+print("Length of A* solution path using h1: {}".format(len(result_a_h1[0])))
 
 #A* - row column difference
 result_a_h2 = a_star(initial_state, row_col_diff)
-print(result_a_h2)
-print("Length of A* solution path using h2: {}".format(len(result_a_h2)))
+for i in result_a_h2[0]: print(i)
+print("Length of A* solution path using h2: {}".format(len(result_a_h2[0])))

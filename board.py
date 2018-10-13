@@ -9,7 +9,6 @@ class Board():
         self.letter_board = [['a','b','c','d'],['e','f','g','h'],['i','j','k','l']]
         self.state = initial_state
         self.priority = 0
-        self.num_of_parents = 0
         self.parents = []
     
     def __str__(self):
@@ -146,7 +145,6 @@ class Board():
         for move in next_moves:
             child = self.peek_move(move[1])
             child.priority = move[0]
-            child.num_of_parents = self.num_of_parents + 1
             if self.parents:
                 child.parents = self.parents
                 if self.state not in [i[1] for i in child.parents]:
