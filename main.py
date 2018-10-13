@@ -149,11 +149,25 @@ for i in raw_state:
 
 #initial_state = [raw_state[0:4], raw_state[4:8], raw_state[8:12]]
 #initial_state = [[1,2,3,4],[5,6,8,7],[9,10,0,11]]
-initial_state = [[1, 2, 3, 4], [5, 6, 7, 8], [0, 9, 10, 11]] 
+initial_state = [[1, 2, 3, 4], [5, 6, 7, 8], [9, 11, 10, 0]] 
 # result = depth_first(initial_state)
-result = best_first(initial_state, manh_dist)
-# result = a_star(initial_state, manh_dist)
-for i in result[0]:
-	print(i)
-print(result[1])
-#run_experiment(a_star, manh_dist)
+
+#Best-first search - manhattan distance
+result_bfs_h1 = best_first(initial_state, manh_dist)
+print(result_bfs_h1)
+print("Length of BFS solution path using h1: {}".format(len(result_bfs_h1)))
+
+#Best-first search - row column difference
+result_bfs_h2 = best_first(initial_state, row_col_diff)
+print(result_bfs_h2)
+print("Length of BFS solution path using h2: {}".format(len(result_bfs_h2)))
+
+#A* - manhattan distance
+result_a_h1 = a_star(initial_state, manh_dist)
+print(result_a_h1)
+print("Length of A* solution path using h1: {}".format(len(result_a_h1)))
+
+#A* - row column difference
+result_a_h2 = a_star(initial_state, row_col_diff)
+print(result_a_h2)
+print("Length of A* solution path using h2: {}".format(len(result_a_h2)))
