@@ -129,7 +129,14 @@ class Board():
         temp_board[zero_row][zero_col] = temp_tile
         temp_board[next_move_row][next_move_col] = 0
 
-        return Board(temp_board)
+        # Create a new board object to return
+        child_board = Board(temp_board)
+        
+        # Set up the parents
+        child_board.parents = copy.deepcopy(self.parents)
+        child_board.parents.append((next_move_id, self.state))
+        
+        return child_board
 
 
     def get_children(self, move_letter):
@@ -145,12 +152,6 @@ class Board():
         for move in next_moves:
             child = self.peek_move(move[1])
             child.priority = move[0]
-            if self.parents:
-                child.parents = self.parents
-                if self.state not in [i[1] for i in child.parents]:
-                    child.parents.append((move_letter, self.state))
-            else:
-                child.parents.append((move_letter, self.state))
             children.append((move[1], child))
         return children
         
