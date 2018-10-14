@@ -101,7 +101,7 @@ class Board():
         return valid_moves
 
 
-    def peek_move(self, next_move_id):
+    def peek_move(self, next_move_id, move_letter):
         """
         Peeks ahead and returns a new board after having taken the specified move
         next_move_id should be a char string between 'a' and 'l'
@@ -134,7 +134,7 @@ class Board():
         
         # Set up the parents
         child_board.parents = copy.deepcopy(self.parents)
-        child_board.parents.append((next_move_id, self.state))
+        child_board.parents.append((move_letter, self.state))
         
         return child_board
 
@@ -150,7 +150,7 @@ class Board():
         children = []
 
         for move in next_moves:
-            child = self.peek_move(move[1])
+            child = self.peek_move(move[1], move_letter)
             child.priority = move[0]
             children.append((move[1], child))
         return children
