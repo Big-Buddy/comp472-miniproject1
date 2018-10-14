@@ -102,9 +102,7 @@ def row_col_diff(state):
             	a = (row_num, col_num)
             	b = goal_coord[tile]
 
-            	if a[0] != b[0]:
-            		score += 1
-            	if a[1] != b[1]:
+            	if a[0] != b[0] | a[1] != b[1]:
             		score += 1
 	return score
 
