@@ -16,7 +16,7 @@ def depth_first(initial_state):
 			solution.append((x[0], x[1].state))
 			return (solution, len(closed_l))
 		else:
-			if len(closed_l) >= 1000:
+			if len(closed_l) >= 1:
 				break
 			closed_l.append(x[1].state)
 			new_moves = x[1].get_children(x[0]) ## Generate all possible moves from x, ordered by hierarchy
